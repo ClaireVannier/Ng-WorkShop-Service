@@ -17,11 +17,14 @@
       <td>{{ article.stock }}</td>
       <td>{{ article.contact }}</td>
       <td>
-        <button type="submit" class="btn btn-danger" (click)="restore()">
+        <button
+          type="submit"
+          class="btn btn-danger"
+          (click)="restore(article.id)"
+        >
           <i class="fas fa-undo"></i>
         </button>
       </td>
     </tr>
   </tbody>
 </table>
-

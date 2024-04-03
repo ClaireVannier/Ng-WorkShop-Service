@@ -1,26 +1,34 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Article } from '../common/article';
+import { ArticleService } from '../common/article.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-articles-list-deleted',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './articles-list-deleted.component.html',
-  styleUrl: './articles-list-deleted.component.css'
+  styleUrls: ['./articles-list-deleted.component.css'],
 })
-export class ArticlesListDeletedComponent {
-  // Liste des articles non disponnible
-  articlesDeleted!: Article[];
+export class ArticlesListDeletedComponent implements OnInit {
+  articlesDeleted: Article[] = []; // Initialise le tableau pour éviter les erreurs d'undefined
+
+  constructor(private articleService: ArticleService) {}
 
   ngOnInit() {
-    // TODO récupération des articles non disponible à partir d'un service
+    // Récupération des articles supprimés à partir du service
+    this.articlesDeleted = this.articleService.getDeletedArticles();
   }
 
-  /**
+  /** Ceci est un commentaire
    * Restaure un article supprimé
+   * @param articleId L'ID de l'article à restaurer
    */
-  restore() {
-    // TODO restauration de l'article à partir d'un service
+
+  restore(articleId: string) {
+    // Ajoute un paramètre pour identifier l'article à restaurer
+    this.articleService.restoreArticle({ id: articleId } as Article); // Appelle la méthode de restauration du service
+    // Mise à jour de la liste des articles supprimés pour refléter la restauration
+    this.articlesDeleted = this.articleService.getDeletedArticles();
   }
 }
